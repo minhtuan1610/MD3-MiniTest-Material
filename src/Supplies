@@ -1,0 +1,92 @@
+create database Supplies;
+use Supplies;
+
+create table supplies
+(
+    id_supplies    int primary key,
+    code_supplies  varchar(10),
+    name_supplies  varchar(20),
+    unit_supplies  varchar(10),
+    price_supplies double
+); -- Vật tư
+alter table supplies
+    add unique (code_supplies);
+
+create table inventory
+(
+    id_inventory                     int primary key,
+    code_inventory                   varchar(10) unique,
+    total_stock_Receiving_inventory  int,
+    total_stock_Delivering_inventory int
+); -- Tồn kho
+
+create table supplier
+(
+    id_supplier      int primary key,
+    code_supplier    varchar(10) unique,
+    name_supplier    varchar(40),
+    address_supplier varchar(50),
+    phone_supplier   int
+); -- Nhà cung cấp
+
+create table orders
+(
+    id_order            int primary key,
+    code_order          varchar(10),
+    date_order          datetime,
+    code_supplier_order varchar(10) unique,
+    foreign key (code_supplier_order) references supplier (code_supplier)
+); -- Đơn đặt hàng
+alter table orders
+    add unique (code_order);
+
+create table receiving_note
+(
+    id_receiving         int primary key,
+    code_receiving       varchar(10) unique,
+    date_receiving       datetime,
+    code_order_receiving varchar(10) unique,
+    foreign key (code_order_receiving) references orders (code_order)
+); -- Phiếu nhập
+
+create table delivering_note
+(
+    id_delivering   int primary key,
+    code_delivering varchar(10) unique,
+    date_delivering datetime,
+    customer_name   varchar(40)
+); -- Phiếu xuất
+
+create table order_detail
+(
+    id_detail     int primary key,
+    code_order    varchar(10) unique,
+    code_supplies varchar(10) unique,
+    quantity      int not null,
+    foreign key (code_order) references orders (code_order),
+    foreign key (code_supplies) references supplies (code_supplies)
+); -- Chi tiết đơn hàng
+
+create table receiving_detail
+(
+    id_receiving_detail  int primary key,
+    code_receiving       varchar(10) unique,
+    code_supplies        varchar(10) unique,
+    quantity_receiving   int not null,
+    receiving_unit_price double,
+    notes                varchar(50),
+    foreign key (code_receiving) references receiving_note (code_receiving),
+    foreign key (code_supplies) references supplies (code_supplies)
+); -- Chi tiết phiếu nhập
+
+create table delivering_detail
+(
+    id_delivering_detail int primary key,
+    code_delivering      varchar(10) unique,
+    code_supplies        varchar(10) unique,
+    quantity_delivering  int not null,
+    receiving_unit_price double,
+    notes                varchar(50),
+    foreign key (code_delivering) references delivering_note (code_delivering),
+    foreign key (code_supplies) references supplies (code_supplies)
+); -- Chi tiết phiếu xuất
