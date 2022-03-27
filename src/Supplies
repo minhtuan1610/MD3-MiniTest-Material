@@ -11,6 +11,8 @@ create table supplies
 ); -- Vật tư
 alter table supplies
     add unique (code_supplies);
+alter table supplies
+    modify id_supplies int auto_increment;
 
 create table inventory
 (
@@ -19,6 +21,8 @@ create table inventory
     total_stock_Receiving_inventory  int,
     total_stock_Delivering_inventory int
 ); -- Tồn kho
+alter table inventory
+    modify id_inventory int auto_increment;
 
 create table supplier
 (
@@ -28,6 +32,8 @@ create table supplier
     address_supplier varchar(50),
     phone_supplier   int
 ); -- Nhà cung cấp
+alter table supplier
+    modify id_supplier int auto_increment;
 
 create table orders
 (
@@ -39,6 +45,8 @@ create table orders
 ); -- Đơn đặt hàng
 alter table orders
     add unique (code_order);
+alter table orders
+    modify id_order int auto_increment;
 
 create table receiving_note
 (
@@ -48,6 +56,8 @@ create table receiving_note
     code_order_receiving varchar(10) unique,
     foreign key (code_order_receiving) references orders (code_order)
 ); -- Phiếu nhập
+alter table receiving_note
+    modify id_receiving int auto_increment;
 
 create table delivering_note
 (
@@ -56,6 +66,8 @@ create table delivering_note
     date_delivering datetime,
     customer_name   varchar(40)
 ); -- Phiếu xuất
+alter table delivering_note
+    modify id_delivering int auto_increment;
 
 create table order_detail
 (
@@ -66,6 +78,8 @@ create table order_detail
     foreign key (code_order) references orders (code_order),
     foreign key (code_supplies) references supplies (code_supplies)
 ); -- Chi tiết đơn hàng
+alter table order_detail
+    modify id_detail int auto_increment;
 
 create table receiving_detail
 (
@@ -78,6 +92,8 @@ create table receiving_detail
     foreign key (code_receiving) references receiving_note (code_receiving),
     foreign key (code_supplies) references supplies (code_supplies)
 ); -- Chi tiết phiếu nhập
+alter table receiving_detail
+    modify id_receiving_detail int auto_increment;
 
 create table delivering_detail
 (
@@ -90,3 +106,5 @@ create table delivering_detail
     foreign key (code_delivering) references delivering_note (code_delivering),
     foreign key (code_supplies) references supplies (code_supplies)
 ); -- Chi tiết phiếu xuất
+alter table delivering_detail
+    modify id_delivering_detail int auto_increment;
