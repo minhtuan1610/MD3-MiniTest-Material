@@ -23,6 +23,12 @@ create table inventory
 ); -- Tồn kho
 alter table inventory
     modify id_inventory int auto_increment;
+alter table inventory
+    add initial_quantity int;
+alter table inventory
+    modify initial_quantity int after code_inventory; -- Rearrange the column
+alter table inventory
+    add foreign key (code_inventory) references supplies (code_supplies);
 
 create table supplier
 (
@@ -80,6 +86,8 @@ create table order_detail
 ); -- Chi tiết đơn hàng
 alter table order_detail
     modify id_detail int auto_increment;
+alter table order_detail
+    modify code_order varchar(10);
 
 create table receiving_detail
 (
