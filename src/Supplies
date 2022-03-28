@@ -4,7 +4,7 @@ use Supplies;
 create table supplies
 (
     id_supplies    int primary key auto_increment,
-    id             varchar(10) unique,
+    code_supplies  varchar(10) unique,
     name_supplies  varchar(20),
     unit_supplies  varchar(10),
     price_supplies double

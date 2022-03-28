@@ -12,21 +12,16 @@ VALUES ('D1', 'D.Why', 'can', 3400);
 insert into supplies(code_supplies, name_supplies, unit_supplies, price_supplies)
 VALUES ('E1', 'E.How', 'dose', 1500);
 --  Nhập 05 Tồn kho
-insert into inventory(code_inventory, initial_quantity, total_stock_Receiving_inventory,
-                      total_stock_Delivering_inventory)
-VALUES ('A1', 100, 10, 2);
-insert into inventory(code_inventory, initial_quantity, total_stock_Receiving_inventory,
-                      total_stock_Delivering_inventory)
-VALUES ('C1', 150, 0, 0);
-insert into inventory(code_inventory, initial_quantity, total_stock_Receiving_inventory,
-                      total_stock_Delivering_inventory)
-VALUES ('E1', 0, 20, 3);
-insert into inventory(code_inventory, initial_quantity, total_stock_Receiving_inventory,
-                      total_stock_Delivering_inventory)
-VALUES ('D1', 50, 10, 0);
-insert into inventory(code_inventory, initial_quantity, total_stock_Receiving_inventory,
-                      total_stock_Delivering_inventory)
-VALUES ('B1', 70, 0, 5);
+insert into inventory(id_supplies, initial_quantity, total_stock_Receiving_inventory, total_stock_Delivering_inventory)
+VALUES (2, 100, 10, 2);
+insert into inventory(id_supplies, initial_quantity, total_stock_Receiving_inventory, total_stock_Delivering_inventory)
+VALUES (1, 150, 0, 0);
+insert into inventory(id_supplies, initial_quantity, total_stock_Receiving_inventory, total_stock_Delivering_inventory)
+VALUES (3, 0, 20, 3);
+insert into inventory(id_supplies, initial_quantity, total_stock_Receiving_inventory, total_stock_Delivering_inventory)
+VALUES (4, 50, 10, 0);
+insert into inventory(id_supplies, initial_quantity, total_stock_Receiving_inventory, total_stock_Delivering_inventory)
+VALUES (5, 70, 0, 5);
 --  Nhập 03 Nhà cung cấp
 insert into supplier(code_supplier, name_supplier, address_supplier, phone_supplier)
 VALUES ('F3', 'Bruce Wayne', 'Gotham City', 123456);
@@ -35,19 +30,19 @@ VALUES ('G3', 'Oliver Queen', 'Star City', 654321);
 insert into supplier(code_supplier, name_supplier, address_supplier, phone_supplier)
 VALUES ('H3', 'Lex Luthor', 'Metropolis', 789123);
 --  Nhập 03 Đơn hàng
-insert into orders(code_order, date_order, code_supplier_order)
-VALUES ('I4', '2022-01-15', 'G3');
-insert into orders(code_order, date_order, code_supplier_order)
-VALUES ('J4', '2021-12-30', 'F3');
-insert into orders(code_order, date_order, code_supplier_order)
-VALUES ('K4', '2022-03-25', 'H3');
+insert into orders(code_order, date_order, id_supplier)
+VALUES ('I4', '2022-01-15', 2);
+insert into orders(code_order, date_order, id_supplier)
+VALUES ('J4', '2021-12-30', 3);
+insert into orders(code_order, date_order, id_supplier)
+VALUES ('K4', '2022-03-25', 3);
 --  Nhập 03 Phiếu nhập
-insert into receiving_note(code_receiving, date_receiving, code_order_receiving)
-VALUES ('L5', '2022-02-25', 'J4');
-insert into receiving_note(code_receiving, date_receiving, code_order_receiving)
-VALUES ('M5', '2022-03-30', 'K4');
-insert into receiving_note(code_receiving, date_receiving, code_order_receiving)
-VALUES ('N5', '2022-03-28', 'I4');
+insert into receiving_note(code_receiving, date_receiving, id_order)
+VALUES ('L5', '2022-02-25', 2);
+insert into receiving_note(code_receiving, date_receiving, id_order)
+VALUES ('M5', '2022-03-30', 1);
+insert into receiving_note(code_receiving, date_receiving, id_order)
+VALUES ('N5', '2022-03-28', 3);
 --  Nhập 03 Phiếu xuất
 insert into delivering_note(code_delivering, date_delivering, customer_name)
 VALUES ('O6', '2022-04-15', 'Joker');
@@ -56,19 +51,41 @@ VALUES ('P6', '2022-09-10', 'Harley Quinn');
 insert into delivering_note(code_delivering, date_delivering, customer_name)
 VALUES ('Q6', '2022-06-20', 'Poison Ivy');
 --  Nhập 06 Chi tiết đơn hàng
-insert into order_detail(code_order, code_supplies, quantity)
-VALUES ('I4', 'E1', 5);
-insert into order_detail(code_order, code_supplies, quantity)
-VALUES ('J4', 'D1', 3);
-insert into order_detail(code_order, code_supplies, quantity)
-VALUES ('K4', 'A1', 10);
-insert into order_detail(code_order, code_supplies, quantity)
-VALUES ('J4', 'B1', 8);
-insert into order_detail(code_order, code_supplies, quantity)
-VALUES ('K4', 'B1', 4);
-insert into order_detail(code_order, code_supplies, quantity)
-VALUES ('J4', 'C1', 3);
+insert into order_detail(id_order, id_supplies, quantity)
+VALUES (1, 5, 5);
+insert into order_detail(id_order, id_supplies, quantity)
+VALUES (2, 4, 3);
+insert into order_detail(id_order, id_supplies, quantity)
+VALUES (3, 1, 10);
+insert into order_detail(id_order, id_supplies, quantity)
+VALUES (2, 2, 8);
+insert into order_detail(id_order, id_supplies, quantity)
+VALUES (3, 2, 4);
+insert into order_detail(id_order, id_supplies, quantity)
+VALUES (2, 3, 3);
 --  Nhập 06 Chi tiết phiếu nhập
-
+insert into receiving_detail(id_receiving, id_supplies, quantity_receiving, receiving_unit_price, notes)
+values (1, 5, 6, 3000, 'MSI Gaming');
+insert into receiving_detail(id_receiving, id_supplies, quantity_receiving, receiving_unit_price, notes)
+values (1, 3, 8, 8500, 'Lenovo Thinkpad');
+insert into receiving_detail(id_receiving, id_supplies, quantity_receiving, receiving_unit_price, notes)
+values (3, 1, 4, 5500, 'HP ProBook');
+insert into receiving_detail(id_receiving, id_supplies, quantity_receiving, receiving_unit_price, notes)
+values (2, 4, 15, 7300, 'Surface Pro');
+insert into receiving_detail(id_receiving, id_supplies, quantity_receiving, receiving_unit_price, notes)
+values (2, 3, 5, 2800, 'Dell Inspiron');
+insert into receiving_detail(id_receiving, id_supplies, quantity_receiving, receiving_unit_price, notes)
+values (1, 2, 10, 9200, 'Macbook Pro');
 --  Nhập 06 Chi tiết phiếu xuất
-
+insert into delivering_detail(id_delivering, id_supplies, quantity_delivering, receiving_unit_price, notes)
+values (2, 3, 7, 3000, 'Dragon');
+insert into delivering_detail(id_delivering, id_supplies, quantity_delivering, receiving_unit_price, notes)
+values (2, 4, 3, 2000, 'Knight');
+insert into delivering_detail(id_delivering, id_supplies, quantity_delivering, receiving_unit_price, notes)
+values (1, 3, 2, 4100, 'Maiden');
+insert into delivering_detail(id_delivering, id_supplies, quantity_delivering, receiving_unit_price, notes)
+values (3, 5, 9, 5500, 'Magician');
+insert into delivering_detail(id_delivering, id_supplies, quantity_delivering, receiving_unit_price, notes)
+values (3, 2, 6, 7600, 'Butterfly');
+insert into delivering_detail(id_delivering, id_supplies, quantity_delivering, receiving_unit_price, notes)
+values (2, 1, 8, 8500, 'Elemental');
