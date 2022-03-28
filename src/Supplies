@@ -3,116 +3,91 @@ use Supplies;
 
 create table supplies
 (
-    id_supplies    int primary key,
-    code_supplies  varchar(10),
+    id_supplies    int primary key auto_increment,
+    id             varchar(10) unique,
     name_supplies  varchar(20),
     unit_supplies  varchar(10),
     price_supplies double
 ); -- Vật tư
-alter table supplies
-    add unique (code_supplies);
-alter table supplies
-    modify id_supplies int auto_increment;
 
 create table inventory
 (
-    id_inventory                     int primary key,
-    code_inventory                   varchar(10) unique,
+    id_inventory                     int primary key auto_increment,
+    id_supplies                      int,
+    initial_quantity                 int,
     total_stock_Receiving_inventory  int,
-    total_stock_Delivering_inventory int
-); -- Tồn kho
-alter table inventory
-    modify id_inventory int auto_increment;
-alter table inventory
-    add initial_quantity int;
-alter table inventory
-    modify initial_quantity int after code_inventory; -- Rearrange the column
-alter table inventory
-    add foreign key (code_inventory) references supplies (code_supplies);
+    total_stock_Delivering_inventory int,
+    foreign key (id_supplies) references supplies (id_supplies)
+);
+-- Tồn kho
+/*alter table inventory
+    modify initial_quantity int after code_inventory; -- Rearrange the column*/
 
 create table supplier
 (
-    id_supplier      int primary key,
+    id_supplier      int primary key auto_increment,
     code_supplier    varchar(10) unique,
     name_supplier    varchar(40),
     address_supplier varchar(50),
     phone_supplier   int
 ); -- Nhà cung cấp
-alter table supplier
-    modify id_supplier int auto_increment;
 
 create table orders
 (
-    id_order            int primary key,
-    code_order          varchar(10),
-    date_order          datetime,
-    code_supplier_order varchar(10) unique,
-    foreign key (code_supplier_order) references supplier (code_supplier)
+    id_order    int primary key auto_increment,
+    code_order  varchar(10) unique,
+    date_order  datetime,
+    id_supplier int,
+    foreign key (id_supplier) references supplier (id_supplier)
 ); -- Đơn đặt hàng
-alter table orders
-    add unique (code_order);
-alter table orders
-    modify id_order int auto_increment;
 
 create table receiving_note
 (
-    id_receiving         int primary key,
-    code_receiving       varchar(10) unique,
-    date_receiving       datetime,
-    code_order_receiving varchar(10) unique,
-    foreign key (code_order_receiving) references orders (code_order)
+    id_receiving   int primary key auto_increment,
+    code_receiving varchar(10) unique,
+    date_receiving datetime,
+    id_order       int,
+    foreign key (id_order) references orders (id_order)
 ); -- Phiếu nhập
-alter table receiving_note
-    modify id_receiving int auto_increment;
 
 create table delivering_note
 (
-    id_delivering   int primary key,
+    id_delivering   int primary key auto_increment,
     code_delivering varchar(10) unique,
     date_delivering datetime,
     customer_name   varchar(40)
 ); -- Phiếu xuất
-alter table delivering_note
-    modify id_delivering int auto_increment;
 
 create table order_detail
 (
-    id_detail     int primary key,
-    code_order    varchar(10) unique,
-    code_supplies varchar(10) unique,
-    quantity      int not null,
-    foreign key (code_order) references orders (code_order),
-    foreign key (code_supplies) references supplies (code_supplies)
+    id_detail   int primary key auto_increment,
+    id_order    int,
+    id_supplies int,
+    quantity    int not null,
+    foreign key (id_order) references orders (id_order),
+    foreign key (id_supplies) references supplies (id_supplies)
 ); -- Chi tiết đơn hàng
-alter table order_detail
-    modify id_detail int auto_increment;
-alter table order_detail
-    modify code_order varchar(10);
 
 create table receiving_detail
 (
-    id_receiving_detail  int primary key,
-    code_receiving       varchar(10) unique,
-    code_supplies        varchar(10) unique,
+    id_receiving_detail  int primary key auto_increment,
+    id_receiving         int,
+    id_supplies          int,
     quantity_receiving   int not null,
     receiving_unit_price double,
     notes                varchar(50),
-    foreign key (code_receiving) references receiving_note (code_receiving),
-    foreign key (code_supplies) references supplies (code_supplies)
+    foreign key (id_receiving) references receiving_note (id_receiving),
+    foreign key (id_supplies) references supplies (id_supplies)
 ); -- Chi tiết phiếu nhập
-alter table receiving_detail
-    modify id_receiving_detail int auto_increment;
 
 create table delivering_detail
 (
-    id_delivering_detail int primary key,
-    code_delivering      varchar(10) unique,
-    code_supplies        varchar(10) unique,
+    id_delivering_detail int primary key auto_increment,
+    id_delivering        int,
+    id_supplies          int,
     quantity_delivering  int not null,
     receiving_unit_price double,
     notes                varchar(50),
-    foreign key (code_delivering) references delivering_note (code_delivering),
-    foreign key (code_supplies) references supplies (code_supplies)
+    foreign key (id_delivering) references delivering_note (id_delivering),
+    foreign key (id_supplies) references supplies (id_supplies)
 ); -- Chi tiết phiếu xuất
-alter table delivering_detail
-    modify id_delivering_detail int auto_increment;
