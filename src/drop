@@ -1,0 +1,3 @@
+use Supplies;
+drop view vw_ctp_nhap;
+drop view vw_ctp_nhap_vt_pn;

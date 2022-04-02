@@ -1,3 +1,54 @@
 use Supplies;
 -- Tạo view vw_CTPNHAP
 
+create view vw_CTP_NHAP as
+select code_receiving,
+       code_supplies,
+       quantity_receiving,
+       receiving_unit_price,
+       rd.quantity_receiving * rd.receiving_unit_price as total_receive_price
+from receiving_note rn
+         join receiving_detail rd on rn.id_receiving = rd.id_receiving
+         join supplies s on s.id_supplies = rd.id_supplies;
+
+create view vw_CTP_NHAP_VT as
+select code_receiving,
+       code_supplies,
+       name_supplies,
+       quantity_receiving,
+       receiving_unit_price,
+       rd.quantity_receiving * rd.receiving_unit_price as total_receive_price
+from receiving_note rn
+         join receiving_detail rd on rn.id_receiving = rd.id_receiving
+         join supplies s on rd.id_supplies = s.id_supplies;
+
+create view vw_CTP_NHAP_VT_PN as
+select code_receiving,
+       date_receiving,
+       code_order,
+       code_supplies,
+       name_supplies,
+       quantity_receiving,
+       receiving_unit_price,
+       rd.quantity_receiving * rd.receiving_unit_price as total_receive_price
+from receiving_note rn
+         join receiving_detail rd on rn.id_receiving = rd.id_receiving
+         join supplies s on s.id_supplies = rd.id_supplies
+         join orders o on rn.id_order = o.id_order;
+
+create view vw_CTP_NHAP_VT_PN_DH as
+select code_receiving,
+       date_receiving,
+       code_order,
+       code_supplier,
+       code_supplies,
+       name_supplies,
+       quantity_receiving,
+       receiving_unit_price,
+       rd.quantity_receiving * rd.receiving_unit_price as total_receive_price
+from receiving_note rn
+         join orders o on o.id_order = rn.id_order
+         join receiving_detail rd on rn.id_receiving = rd.id_receiving
+         join supplier s on s.id_supplier = o.id_supplier
+         join supplies s2 on s2.id_supplies = rd.id_supplies;
+
